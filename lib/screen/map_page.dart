@@ -3,6 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_stajrofka/bloc/add_data/add_post_bloc.dart';
+import 'package:test_stajrofka/model/location_model.dart';
+import 'package:test_stajrofka/screen/loading_page.dart';
+import 'package:test_stajrofka/screen/response.dart';
 import 'package:test_stajrofka/service/string.dart';
 import '../service/message.dart';
 import '../views/custom_text_fild.dart';
@@ -15,9 +18,9 @@ class MapPage extends StatelessWidget {
   static TextEditingController ctrlDesc = TextEditingController();
   static TextEditingController ctrlMap = TextEditingController();
 
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         elevation: 5,
@@ -41,6 +44,19 @@ class MapPage extends StatelessWidget {
                 );
                 return;
               }
+              final data = LocationModel(
+                  title: ctrlTitle.text.trim(),
+                  description: ctrlDesc.text.trim(),
+                  lot: "41.29409806639359",
+                  lat: " 69.27053411630216",
+              );
+              BlocProvider.of<AddPostBloc>(context).add(
+                CreatePostEvent(model: data),
+              );
+              Navigator.pushReplacement(context, CupertinoPageRoute(builder: (context) => const ResponseData()));
+              ctrlTitle.text = "";
+              ctrlDesc.text = "";
+              ctrlMap.text = "";
             },
             icon: const Icon(
               Icons.arrow_forward,
@@ -56,80 +72,85 @@ class MapPage extends StatelessWidget {
       body: BlocConsumer<AddPostBloc, AddPostState>(
         listener: (context, state) {},
         builder: (context, state) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      KTString.title.tr(),
-                      style:
-                          const TextStyle(fontFamily: "Mulish", fontSize: 20),
-                    ),
-                    CustomTextField(
-                      hintFontSize: 18,
-                      controller: ctrlTitle,
-                      maxLine: 1,
-                      hintText: KTString.enterProductTitle.tr(),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      KTString.description.tr(),
-                      style:
-                          const TextStyle(fontFamily: "Mulish", fontSize: 20),
-                    ),
-                    CustomTextField(
-                      hintFontSize: 18,
-                      controller: ctrlDesc,
-                      maxLine: 5,
-                      hintText: KTString.enterDescription.tr(),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        const SizedBox(
-                            height: 1,
-                            width: 100,
-                            child: ColoredBox(color: Colors.black)),
-                        Text(
-                          KTString.changeLanguage.tr(),
-                          style: const TextStyle(
-                              fontFamily: "Mulish", fontSize: 20),
-                        ),
-                        const SizedBox(
-                            height: 1,
-                            width: 100,
-                            child: ColoredBox(color: Colors.black)),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      KTString.addressByLocation.tr(),
-                      style:
-                          const TextStyle(fontFamily: "Mulish", fontSize: 20),
-                    ),
-                    CustomTextField(
-                      hintFontSize: 18,
-                      controller: ctrlMap,
-                      maxLine: 1,
-                      hintText: KTString.addressMapAddress.tr(),
-                    ),
-                  ],
-                ),
-              )
-            ],
-          );
+          debugPrint(state.toString());
+         if(state is AddPostLoadingState){
+           return const LoadingPage();
+         }else{
+           return Column(
+             crossAxisAlignment: CrossAxisAlignment.start,
+             children: [
+               Padding(
+                 padding:
+                 const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                 child: Column(
+                   crossAxisAlignment: CrossAxisAlignment.start,
+                   children: [
+                     Text(
+                       KTString.title.tr(),
+                       style:
+                       const TextStyle(fontFamily: "Mulish", fontSize: 20),
+                     ),
+                     CustomTextField(
+                       hintFontSize: 18,
+                       controller: ctrlTitle,
+                       maxLine: 1,
+                       hintText: KTString.enterProductTitle.tr(),
+                     ),
+                     const SizedBox(
+                       height: 20,
+                     ),
+                     Text(
+                       KTString.description.tr(),
+                       style:
+                       const TextStyle(fontFamily: "Mulish", fontSize: 20),
+                     ),
+                     CustomTextField(
+                       hintFontSize: 18,
+                       controller: ctrlDesc,
+                       maxLine: 5,
+                       hintText: KTString.enterDescription.tr(),
+                     ),
+                     const SizedBox(
+                       height: 20,
+                     ),
+                     Row(
+                       mainAxisAlignment: MainAxisAlignment.spaceAround,
+                       children: [
+                         const SizedBox(
+                             height: 1,
+                             width: 100,
+                             child: ColoredBox(color: Colors.black)),
+                         Text(
+                           KTString.changeLanguage.tr(),
+                           style: const TextStyle(
+                               fontFamily: "Mulish", fontSize: 20),
+                         ),
+                         const SizedBox(
+                             height: 1,
+                             width: 100,
+                             child: ColoredBox(color: Colors.black)),
+                       ],
+                     ),
+                     const SizedBox(
+                       height: 20,
+                     ),
+                     Text(
+                       KTString.addressByLocation.tr(),
+                       style:
+                       const TextStyle(fontFamily: "Mulish", fontSize: 20),
+                     ),
+                     CustomTextField(
+                       hintFontSize: 18,
+                       controller: ctrlMap,
+                       maxLine: 1,
+                       hintText: KTString.addressMapAddress.tr(),
+                     ),
+                   ],
+                 ),
+               )
+             ],
+           );
+         }
         },
       ),
     );

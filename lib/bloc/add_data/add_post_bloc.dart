@@ -17,8 +17,10 @@ class AddPostBloc extends Bloc<AddPostEvent, AddPostState> {
   }
 
   void addPost( CreatePostEvent event,Emitter<AddPostState> emit) async {
+    emit(AddPostLoadingState());
     try{
-      bool response = true;//await AddPostBloc.dioService.postAdd(postAdd: event.model);
+      bool response = await AddPostBloc.dioService.postAdd(postAdd: event.model);
+      debugPrint("Data => $response");
       if(response){
         emit(CreatePostState());
       }else{
