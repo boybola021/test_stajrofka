@@ -25,7 +25,7 @@ class App extends StatelessWidget {
           locale: context.locale,
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
-          home: const MapPage(),
+          home: const InitialPage(),
         ),
     );
   }
