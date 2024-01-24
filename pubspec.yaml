@@ -1,0 +1,77 @@
+name: test_stajrofka
+description: A new Flutter project.
+
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.1.3 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  equatable: ^2.0.5
+  bloc: ^8.1.2
+
+  cupertino_icons: ^1.0.2
+  flutter_bloc: ^8.1.3
+  retrofit: ^4.0.3
+  flutter_compass: ^0.8.0
+  polymaker: ^1.0.3
+  geolocator: ^9.0.0
+  flutter_polyline_points: ^2.0.0
+  location: ^5.0.3
+
+  easy_localization: ^3.0.2
+  dio: ^5.4.0
+  retrofit_generator: ^8.0.6
+  json_serializable: ^6.7.1
+  build_runner: ^2.4.8
+  json_annotation: ^4.8.1
+  mask_text_input_formatter: ^2.7.0
+  yandex_mapkit: ^3.4.0
+
+
+
+targets:
+    $default:
+      builders:
+        retrofit_generator|retrofit_builder:
+          enabled: true
+          options:
+            # Specify the path to your API service file
+            source_file: lib/service/dio_service/dio.dart
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+ 
+  flutter_lints: ^2.0.0
+
+
+flutter:
+
+  uses-material-design: true
+  assets:
+    - assets/translate/ru-RU.json
+    - assets/translate/uz-UZ.json
+    - assets/translate/uz-UZKrill.json
+    - assets/image/
+
+  fonts:
+    - family: Mulish
+      fonts:
+        - asset: assets/fonts/mulish/Mulish-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/mulish/Mulish-Light.ttf
+          weight: 300
+        - asset: assets/fonts/mulish/Mulish-Regular.ttf
+          weight: 400
+
+    - family: K2D
+      fonts:
+        - asset: assets/fonts/k2d/K2D-Bold.ttf
+          weight: 700
+ 
